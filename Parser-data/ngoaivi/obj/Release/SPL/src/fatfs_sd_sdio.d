@@ -1,0 +1,18 @@
+obj\release\spl\src\fatfs_sd_sdio.o: SPL\src\fatfs_sd_sdio.c \
+ inc/stm32f4xx.h cmsis/core_cm4.h cmsis/core_cmInstr.h \
+ cmsis/core_cmFunc.h cmsis/core_cm4_simd.h inc/system_stm32f4xx.h \
+ inc/stm32f4xx_conf.h SPL\inc/stm32f4xx_adc.h SPL\inc/stm32f4xx_can.h \
+ SPL\inc/stm32f4xx_crc.h SPL\inc/stm32f4xx_cryp.h SPL\inc/stm32f4xx_dac.h \
+ SPL\inc/stm32f4xx_dbgmcu.h SPL\inc/stm32f4xx_dcmi.h \
+ SPL\inc/stm32f4xx_dma.h SPL\inc/stm32f4xx_exti.h \
+ SPL\inc/stm32f4xx_flash.h SPL\inc/stm32f4xx_fsmc.h \
+ SPL\inc/stm32f4xx_hash.h SPL\inc/stm32f4xx_gpio.h \
+ SPL\inc/stm32f4xx_i2c.h SPL\inc/stm32f4xx_iwdg.h SPL\inc/stm32f4xx_pwr.h \
+ SPL\inc/stm32f4xx_rcc.h SPL\inc/stm32f4xx_rng.h SPL\inc/stm32f4xx_rtc.h \
+ SPL\inc/stm32f4xx_sdio.h SPL\inc/stm32f4xx_spi.h \
+ SPL\inc/stm32f4xx_syscfg.h SPL\inc/stm32f4xx_tim.h \
+ SPL\inc/stm32f4xx_usart.h SPL\inc/stm32f4xx_wwdg.h SPL\inc/misc.h \
+ SPL\inc/fatfs_sd_sdio.h SPL\inc/diskio.h SPL\inc/integer.h \
+ SPL\inc/defines.h SPL\inc/attributes.h SPL\inc/stm32f4xx_rcc.h \
+ SPL\inc/stm32f4xx_gpio.h SPL\inc/tm_stm32f4_fatfs.h \
+ SPL\inc/tm_stm32f4_gpio.h SPL\inc/ff.h SPL\inc/ffconf.h

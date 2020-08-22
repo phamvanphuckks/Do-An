@@ -1,0 +1,23 @@
+--cpu Cortex-M4.fp
+".\objects\main.o"
+".\objects\tm_stm32f4_fatfs.o"
+".\objects\ff.o"
+".\objects\tm_stm32f4_gpio.o"
+".\objects\unicode.o"
+".\objects\syscall.o"
+".\objects\diskio.o"
+".\objects\fatfs_sd_sdio.o"
+".\objects\stm32f4xx_dma.o"
+".\objects\stm32f4xx_gpio.o"
+".\objects\stm32f4xx_rcc.o"
+".\objects\stm32f4xx_sdio.o"
+".\objects\stm32f4xx_usart.o"
+".\objects\misc.o"
+".\objects\delay.o"
+".\objects\uart.o"
+".\objects\startup_stm32f407xx.o"
+".\objects\system_stm32f4xx.o"
+--strict --scatter ".\Objects\MP3.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\MP3.map" -o .\Objects\MP3.axf
