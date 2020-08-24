@@ -1,5 +1,6 @@
 .\objects\main.o: ..\User\main.c
-.\objects\main.o: ..\Library\User_Libraries\inc\delay.h
+.\objects\main.o: ..\Library\CMSIS\Device\STM32F4xx\Include\stm32f4xx_conf.h
+.\objects\main.o: ..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h
 .\objects\main.o: ..\Library\CMSIS\Device\STM32F4xx\Include\stm32f4xx.h
 .\objects\main.o: ..\Library\CMSIS\Include\core_cm4.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -8,8 +9,6 @@
 .\objects\main.o: ..\Library\CMSIS\Include\core_cmSimd.h
 .\objects\main.o: ..\Library\CMSIS\Device\STM32F4xx\Include\system_stm32f4xx.h
 .\objects\main.o: ..\Library\CMSIS\Device\STM32F4xx\Include\stm32f4xx_conf.h
-.\objects\main.o: ..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h
-.\objects\main.o: ..\Library\CMSIS\Device\STM32F4xx\Include\stm32f4xx.h
 .\objects\main.o: ..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_crc.h
 .\objects\main.o: ..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dbgmcu.h
 .\objects\main.o: ..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma.h
@@ -35,7 +34,6 @@
 .\objects\main.o: ..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h
 .\objects\main.o: ..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 .\objects\main.o: ..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
-.\objects\main.o: ..\Library\User_Libraries\inc\uart.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: ..\Library\tm_stm32f4_fatfs\fatfs\defines.h
@@ -48,3 +46,10 @@
 .\objects\main.o: ..\Library\tm_stm32f4_fatfs\fatfs\ff.h
 .\objects\main.o: ..\Library\tm_stm32f4_fatfs\fatfs\ffconf.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\main.o: ..\Library\User_Libraries\inc\delay.h
+.\objects\main.o: ..\Library\User_Libraries\inc\uart.h
+.\objects\main.o: ..\Library\User_Libraries\inc\clock.h
+.\objects\main.o: ..\Library\User_Libraries\inc\timer.h
+.\objects\main.o: ..\Library\User_Libraries\inc\dac.h
+.\objects\main.o: ..\Library\User_Libraries\inc\dma.h
+.\objects\main.o: ..\Library\User_Libraries\inc\adc.h

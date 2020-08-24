@@ -1,3 +1,17 @@
+/**
+  ********************************************************************************************
+  * @file    uart.h
+  * @author  PhamVanPhuckks
+  * @date    2020
+  * @brief   This file contains all the functions prototypes for ...
+  *          firmware library functions (add-on to CMSIS functions).
+  *********************************************************************************************
+  * @attention
+  * This file is used to declare function
+  * prototypes for the.....
+  * All information related to copyright contact phamvanphuckks@gmail.com
+  *********************************************************************************************
+  */
 #ifndef __UART_H
 #define __UART_H
 
@@ -6,6 +20,12 @@
 #include "stm32f4xx_gpio.h"
 #include "stdio.h"
 #include "misc.h"
+
+#ifdef __cplusplus
+ extern "C" {
+#endif 
+     
+     
 
 /* Definition for USARTx resources ****************************/
 #define USARTx                           USART1
@@ -40,4 +60,22 @@ void UART6_Config(void);
 int _write(int file, char *ptr, int len);
 /*--------------------end--------------------------------------*/
 
+#ifdef __cplusplus
+}
 #endif
+
+#endif
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
+/******************* (C) COPYRIGHT 2020 phamvanphuckks@gmail.com *****END OF FILE****/
