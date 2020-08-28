@@ -23,7 +23,7 @@
  extern "C" {
 #endif 
 
-void TIM6_Trigger_DAC_Init(void);     
+void TIM6_Trigger_DAC_Init(uint16_t arr, uint16_t psc);     
 static void TIM6_Trigger_DAC_Config(uint16_t arr, uint16_t psc);   
      
 #ifdef __cplusplus

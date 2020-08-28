@@ -15,10 +15,10 @@
 #include "timer.h"
 
 
-void TIM6_Trigger_DAC_Init()
+void TIM6_Trigger_DAC_Init(uint16_t arr, uint16_t psc)
 {
     // 44.1 Khz arr=1633
-    TIM6_Trigger_DAC_Config(7199UL, 9999UL);
+    TIM6_Trigger_DAC_Config(arr, psc);
 }
 
 static void TIM6_Trigger_DAC_Config(uint16_t arr, uint16_t psc)

@@ -106,7 +106,7 @@ FRESULT res;
 char buff[256];
 
 int16_t test_trigger = 0;
-int16_t wavBuffer1[512], wavBuffer2[512];
+int16_t wavBuffer1[256], wavBuffer2[256];
 /*---------------------------*/
 
 FRESULT scan_files(
@@ -160,11 +160,10 @@ int main()
 
     UART1_Config();
     int read = 0;
-    TIM6_Trigger_DAC_Init();
     DAC_Channel1_Initial();
-    DACDMA_Initial(&test_trigger);
+    DACDMA_Initial(wavBuffer1);
     
-    ADC_Initial();
+//    ADC_Initial();
     /*-------------------------------------------------*/
 
 //    res = f_mount(&fs, "", 1); // register work area
@@ -285,8 +284,10 @@ int main()
             printf("Approx.Duration in h:m:s=%s\n", seconds_to_time(duration_in_seconds));
             if (header.format_type == 1)
             { // PCM
+                
                 long i = 0;
-                char data_buffer[size_of_each_sample];
+                //char data_buffer[size_of_each_sample];
+                char data_buffer[512];
                 int size_is_correct = TRUE;
 
                 // make sure that the bytes-per-sample is completely divisible by num.of channels
@@ -295,47 +296,63 @@ int main()
                 {
                     size_is_correct = FALSE;
                 }
-
+            
                 if (size_is_correct)
                 {
+                    TIM6_Trigger_DAC_Init(749, 0);
                     // the valid amplitude range for values based on the bits per sample
-                    for (i = 1; i <= num_samples; i++)
+                    for (i = 1; i <= num_samples; i +=1024)
                     {
 
                         read = f_read(&pFile, data_buffer, sizeof(data_buffer), &br);
+
                         if (read == 0)
                         {
-                            // dump the data read
-                            int16_t data_in_channel = 0; // khai bao int lai gia tri khac
-                            uint32_t offset = 0; // move the offset for every iteration in the loop below.
-                            // convert data from little endian to big endian based on bytes in each channel sample.
-                            data_in_channel = data_buffer[offset] | (data_buffer[offset + 1] << 8);
-//                            printf("data_in_channel = %x%x , %d \n", data_buffer[offset+1], data_buffer[offset], data_in_channel);                            
-                            offset += bytes_in_each_channel;
-                                                      
-                            float a = (((float)data_in_channel / 0x10000) + 1) / 2;
-                            int width = a * 1500;
-//                            printf("a = %f , width = %d \n", a, width);                            
-
-                            test_trigger = a * 1500;
-                            
-//                            DAC->DHR12R1 = width;
-//                            while ((TIM6->SR & TIM_FLAG_Update) == RESET)
-//                                ;                        // doi co
-//                            TIM6->SR = ~TIM_FLAG_Update; //xoa co
-
-                            // doi den khi DMA data transfer xong
-                            while(DMA_GetFlagStatus(DMA1_Stream5, DMA_FLAG_TCIF5) == RESET);
-                            DMA_ClearFlag(DMA1_Stream5, DMA_FLAG_TCIF5);
-                            TIM6->SR = ~TIM_FLAG_Update; //xoa co
-                            delay_us(12); // delay sau 3 chu ki APB1
-                            printf("width = %d || DORx = %d  || ADC = %d \n", width, DAC_GetDataOutputValue(DAC_Channel_1), ADC_GetConversionValue(ADC3));
+                            uint16_t index_wav2 = 0;
+                            for(int offset = 0; offset < 512 ; offset += bytes_in_each_channel)
+                            {
+                                int16_t data_in_channel = 0;
+                                data_in_channel = data_buffer[offset] | (data_buffer[offset + 1] << 8); 
+                                //printf("%x%x   ", data_buffer[offset] , data_buffer[offset + 1]);
+                                float a = (((float)data_in_channel / 0x10000) + 1) / 2;
+                                int width = a * 1500;              
+                                wavBuffer2[index_wav2++] = width;
+                            }
                         }
-                        else
-                        {
-                            printf("Error reading file. %d bytes\n", read);
+                        else{
+                            printf("read error");
                             break;
                         }
+                        while(DMA_GetFlagStatus(DMA1_Stream5, DMA_FLAG_TCIF5) == RESET);
+                        DMA_ClearFlag(DMA1_Stream5, DMA_FLAG_TCIF5);  
+                        
+                        DMA_Cmd(DMA1_Stream5, DISABLE);
+                        DACDMA_Initial(wavBuffer2); 
+
+                        read = f_read(&pFile, data_buffer, sizeof(data_buffer), &br);
+
+                        if (read == 0)
+                        {
+                            uint16_t index_wav1 = 0;
+                            for(int offset = 0; offset < 512 ; offset += bytes_in_each_channel)
+                            {
+                                int16_t data_in_channel = 0;
+                                data_in_channel = data_buffer[offset] | (data_buffer[offset + 1] << 8);                       
+                                float a = (((float)data_in_channel / 0x10000) + 1) / 2;
+                                int width = a * 1500;              
+                                wavBuffer1[index_wav1++] = width;
+                           //     printf("%x%x,%d, wavBuffer1[%d] = %d \n", data_buffer[offset], data_buffer[offset + 1],data_in_channel, index_wav1, wavBuffer1[index_wav1]);
+                            }
+                        }
+                        else{
+                            printf("read error");
+                            break;
+                        } 
+                        while(DMA_GetFlagStatus(DMA1_Stream5, DMA_FLAG_TCIF5) == RESET);
+                        DMA_ClearFlag(DMA1_Stream5, DMA_FLAG_TCIF5);
+                        
+                        DMA_Cmd(DMA1_Stream5, DISABLE);
+                        DACDMA_Initial(wavBuffer1);                         
 
                     } //     for (i =1; i <= num_samples; i++) {
 

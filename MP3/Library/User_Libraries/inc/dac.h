@@ -20,6 +20,7 @@
 #include "stm32f4xx_gpio.h"
 
 #define DAC_DHR12R1_ADDRESS    0x40007408UL
+#define DAC_DHR12L1_ADDRESS    0x4000740CUL
 #define DAC_DHR8R1_ADDRESS     0x40007410UL
 
 extern uint8_t _data_wave;
