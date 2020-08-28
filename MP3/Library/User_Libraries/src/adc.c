@@ -36,7 +36,7 @@ void ADC_Initial()
   ADC_Init(ADCx, &ADC_InitStructure);
 
   /* ADC3 regular channel7 configuration **************************************/
-  ADC_RegularChannelConfig(ADCx, ADC_CHANNEL, 1, ADC_SampleTime_3Cycles);
+  ADC_RegularChannelConfig(ADCx, ADC_CHANNEL, 1, ADC_SampleTime_112Cycles);
   
   /* Enable ADC3 */
   ADC_Cmd(ADCx, ENABLE);  

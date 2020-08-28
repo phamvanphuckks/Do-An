@@ -18,12 +18,13 @@
 
 #include "stm32f4xx_dma.h"
 #include "stm32f4xx_rcc.h"
+#include "misc.h"
 
 #ifdef __cplusplus
  extern "C" {
 #endif 
      
-void DACDMA_Ch1_Initial(uint32_t *Memory0BaseAddr);
+void DACDMA_Initial(int16_t *Memory0BaseAddr);
      
 #ifdef __cplusplus
 }

@@ -15,13 +15,13 @@
 #include "timer.h"
 
 
-void TIM6_Trigger_ADC_Init()
+void TIM6_Trigger_DAC_Init()
 {
     // 44.1 Khz arr=1633
-    TIM6_Trigger_ADC_Config(7199UL, 9999UL);
+    TIM6_Trigger_DAC_Config(7199UL, 9999UL);
 }
 
-static void TIM6_Trigger_ADC_Config(uint16_t arr, uint16_t psc)
+static void TIM6_Trigger_DAC_Config(uint16_t arr, uint16_t psc)
 {
     TIM_TimeBaseInitTypeDef    TIM_TimeBaseStructure;
     /* TIM6 Periph clock enable */

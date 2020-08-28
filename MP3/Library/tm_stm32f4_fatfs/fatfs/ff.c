@@ -1481,7 +1481,7 @@ FRESULT dir_read (
 #endif
 
 	res = FR_NO_FILE;
-	while (dp->sect) {
+	while (dp->sect) { // thu xuat hex ra xem dia chi
 		res = move_window(dp->fs, dp->sect);
 		if (res != FR_OK) break;
 		dir = dp->dir;					/* Ptr to the directory entry of current index */
@@ -1666,14 +1666,17 @@ void get_fileinfo (		/* No return code */
 #endif
 
 	p = fno->fname;
+ 
 	if (dp->sect) {		/* Get SFN */
 		dir = dp->dir;
+//        printf("dir: %s \n", dp->dir);
 		i = 0;
 		while (i < 11) {		/* Copy name body and extension */
 			c = (TCHAR)dir[i++];
 			if (c == ' ') continue;				/* Skip padding spaces */
 			if (c == RDDEM) c = (TCHAR)DDEM;	/* Restore replaced DDEM character */
 			if (i == 9) *p++ = '.';				/* Insert a . if extension is exist */
+            
 #if _USE_LFN
 			if (IsUpper(c) && (dir[DIR_NTres] & (i >= 9 ? NS_EXT : NS_BODY)))
 				c += 0x20;			/* To lower */
@@ -1712,6 +1715,7 @@ void get_fileinfo (		/* No return code */
 		p[i] = 0;	/* Terminate LFN string by a \0 */
 	}
 #endif
+
 }
 #endif /* _FS_MINIMIZE <= 1 || _FS_RPATH >= 2 */
 

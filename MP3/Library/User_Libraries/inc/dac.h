@@ -19,8 +19,8 @@
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_gpio.h"
 
-#define DAC_DHR12R1_ADDRESS    0x40007408
-#define DAC_DHR8R1_ADDRESS     0x40007410
+#define DAC_DHR12R1_ADDRESS    0x40007408UL
+#define DAC_DHR8R1_ADDRESS     0x40007410UL
 
 extern uint8_t _data_wave;
 
@@ -28,7 +28,7 @@ extern uint8_t _data_wave;
  extern "C" {
 #endif 
 
-void DAC_Initial(void);     
+void DAC_Channel1_Initial(void);     
 static void DAC_Config(void);
      
 #ifdef __cplusplus

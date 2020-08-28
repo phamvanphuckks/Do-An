@@ -14,7 +14,7 @@
   */
 #include "dac.h"
 
-void DAC_Initial(void)
+void DAC_Channel1_Initial(void)
 {
     DAC_Config();
 }

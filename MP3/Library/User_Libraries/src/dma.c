@@ -15,18 +15,17 @@
 #include "dma.h"
 #include "dac.h"
 
-// tham so cua ham la con tro 
-void DACDMA_Ch1_Initial(uint32_t *Memory0BaseAddr)
+void DACDMA_Initial(int16_t *Memory0BaseAddr)
 {
     DMA_InitTypeDef DMA_InitStructure;
     
     /* DMA1 clock enable */
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);
 
-    /* DMA1_Stream5 channel_7 configuration */  
+    /* DMA1_Streamx channel_x configuration */  
     DMA_DeInit(DMA1_Stream5);
     DMA_InitStructure.DMA_Channel = DMA_Channel_7;  
-    DMA_InitStructure.DMA_PeripheralBaseAddr = DAC_DHR12R1_ADDRESS;
+    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) DAC_DHR12R1_ADDRESS;
     DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)(Memory0BaseAddr);
     
     /*
@@ -41,8 +40,7 @@ void DACDMA_Ch1_Initial(uint32_t *Memory0BaseAddr)
     
     DMA_InitStructure.DMA_BufferSize = 1; 
     DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord; // the Peripheral data width
-    DMA_InitStructure.DMA_MemoryDataSize = DMA_PeripheralDataSize_HalfWord; // the Memory data width.
-    
+    DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord; // the Memory data width.
     
     DMA_InitStructure.DMA_DIR = DMA_DIR_MemoryToPeripheral; // data transfer from memory(array,variable) to Peripheral(DAC_DHRx)
     DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable; // whether the Peripheral address register should be incremented or not.
@@ -59,7 +57,7 @@ void DACDMA_Ch1_Initial(uint32_t *Memory0BaseAddr)
     DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single; // the Burst transfer configuration for the peripheral transfers. 
     DMA_Init(DMA1_Stream5, &DMA_InitStructure);  
 
-    /* Enable DMA1_Stream5 */
+    /* Enable DMA1_Streamx */
     DMA_Cmd(DMA1_Stream5, ENABLE);
 
     /* Enable DAC Channel1 */

@@ -42,8 +42,6 @@ extern int h, t;
 
 /******************************************************************************/
 
-
-
 struct HEADER
 {
     unsigned char riff[4];              // RIFF string
@@ -103,45 +101,16 @@ struct HEADER header;
 int width;
 
 /*---------------------------*/
-uint32_t test_trigger;
-
 FATFS fs;
 FRESULT res;
 char buff[256];
 
+int16_t test_trigger = 0;
+int16_t wavBuffer1[512], wavBuffer2[512];
+/*---------------------------*/
 
-FRESULT showlist(char* path)
-{
-    FRESULT res;
-    DIR dir;
-    UINT i;
-    static FILINFO fno;
-
-    res = f_opendir(&dir, path);                       /* Open the directory */
-    printf("path %s\n", path);
-    if (res == FR_OK) {
-        for (;;) {
-            res = f_readdir(&dir, &fno);                   /* Read a directory item */
-            if (res != FR_OK || fno.fname[0] == 0) break;  /* Break on error or end of dir */
-            if (fno.fattrib & AM_DIR) {                    /* It is a directory */
-                i = strlen(path);
-                sprintf(&path[i], "/%s", fno.fname);  
-                printf("%s%s - 1\n", path, fno.fname);
-                if (res != FR_OK) break;
-                path[i] = 0;
-            } else {                                       /* It is a file. */
-                printf("%s%s - 2\n", path, fno.fname);
-            }
-
-        }
-        f_closedir(&dir);
-    }
-
-    return res;
-}
-
-FRESULT scan_files (
-    char* path        /* Start node to be scanned (***also used as work area***) */
+FRESULT scan_files(
+    char *path /* Start node to be scanned (***also used as work area***) */
 )
 {
     FRESULT res;
@@ -149,32 +118,38 @@ FRESULT scan_files (
     UINT i;
     static FILINFO fno;
 
-    res = f_opendir(&dir, path);                       /* Open the directory */
+    res = f_opendir(&dir, path); /* Open the directory */
     printf("path %s\n", path);
-    if (res == FR_OK) {
-        for (;;) {
-            res = f_readdir(&dir, &fno);                   /* Read a directory item */
-            if (res != FR_OK || fno.fname[0] == 0) break;  /* Break on error or end of dir */
-            if (fno.fattrib & AM_DIR) {                    /* It is a directory */
-                i = strlen(path);
-                sprintf(&path[i], "/%s", fno.fname);  
-                //printf("%s/%s - 1\n", path, fno.fname);
-                printf("%s - 1\n", fno.fname);
-                
-                //res = scan_files(path);                    /* Enter the directory */
-                
-                //showlist(path);
-                if (res != FR_OK) break;
-                path[i] = 0;
-            } else {                                       /* It is a file. */
-                //printf("%s/%s - 2\n", path, fno.fname);
-            }
+    if (res == FR_OK)
+    {
 
+        for (;;)
+        {
+            res = f_readdir(&dir, &fno); /* Read a directory item */
+            //if (res != FR_OK || fno.fname[0] == 0 || fno.fname[0]=='.') break;  /* Break on error or end of dir */
+            if (res != FR_OK || fno.fname[0] == 0)
+                break; /* Break on error or end of dir */
+
+            if (fno.fattrib & AM_DIR)
+            { /* It is a directory */
+                i = strlen(path);
+                sprintf(&path[i], "/%s", fno.fname);
+                // printf("%s/%s - 1\n", path, fno.fname);
+                printf("%s - 1 \n", fno.fname);
+                res = scan_files(path); /* Enter the directory */
+                if (res != FR_OK)
+                    break;
+                path[i] = 0;
+            }
+            else
+            { /* It is a file. */
+                printf("%s/%s - 2\n", path, fno.fname);
+            }
         }
         f_closedir(&dir);
     }
 
-    return res;
+    //    return res;
 }
 
 int main()
@@ -182,25 +157,26 @@ int main()
     System_Initial();
     SystemCoreClockUpdate();
     SysTick_Init();
-    
+
     UART1_Config();
-//    Button_Config();
     int read = 0;
-    TIM6_Trigger_ADC_Init();  
-    DAC_Initial();    
-    DACDMA_Ch1_Initial(&test_trigger);
+    TIM6_Trigger_DAC_Init();
+    DAC_Channel1_Initial();
+    DACDMA_Initial(&test_trigger);
+    
+    ADC_Initial();
     /*-------------------------------------------------*/
 
-    ADC_Initial();
-//    res = f_mount(&fs, "", 1);
+//    res = f_mount(&fs, "", 1); // register work area
 
-//    if (res == FR_OK) {
+//    if (res == FR_OK)
+//    {
 //        strcpy(buff, "/");
-////    strcpy(buff, "//test");
+//        //        strcpy(buff, "//SYSTEM~1");
 //        res = scan_files(buff);
 //    }
     /*-------------------------------------------------*/
-    
+
     if (f_mount(&FatFs, "", 1) == FR_OK)
     {
         /** Open a file */
@@ -330,26 +306,30 @@ int main()
                         if (read == 0)
                         {
                             // dump the data read
-                            unsigned int xchannels = 0;
-                            int data_in_channel = 0;
-                            int offset = 0; // move the offset for every iteration in the loop below.
+                            int16_t data_in_channel = 0; // khai bao int lai gia tri khac
+                            uint32_t offset = 0; // move the offset for every iteration in the loop below.
                             // convert data from little endian to big endian based on bytes in each channel sample.
                             data_in_channel = data_buffer[offset] | (data_buffer[offset + 1] << 8);
+//                            printf("data_in_channel = %x%x , %d \n", data_buffer[offset+1], data_buffer[offset], data_in_channel);                            
                             offset += bytes_in_each_channel;
-                            
+                                                      
                             float a = (((float)data_in_channel / 0x10000) + 1) / 2;
                             int width = a * 1500;
+//                            printf("a = %f , width = %d \n", a, width);                            
+
+                            test_trigger = a * 1500;
                             
-                            
-                            // The DHRx register is then loaded into the DORx register
-                            // DAC_output = VREF * DOR/4096
-                            test_trigger = width;
-                            printf("width = %d ADC = %d \n", width, ADC_GetConversionValue(ADC3));
-                            
-                            
-                            // doi den khi DMA xong
+//                            DAC->DHR12R1 = width;
+//                            while ((TIM6->SR & TIM_FLAG_Update) == RESET)
+//                                ;                        // doi co
+//                            TIM6->SR = ~TIM_FLAG_Update; //xoa co
+
+                            // doi den khi DMA data transfer xong
                             while(DMA_GetFlagStatus(DMA1_Stream5, DMA_FLAG_TCIF5) == RESET);
                             DMA_ClearFlag(DMA1_Stream5, DMA_FLAG_TCIF5);
+                            TIM6->SR = ~TIM_FLAG_Update; //xoa co
+                            delay_us(12); // delay sau 3 chu ki APB1
+                            printf("width = %d || DORx = %d  || ADC = %d \n", width, DAC_GetDataOutputValue(DAC_Channel_1), ADC_GetConversionValue(ADC3));
                         }
                         else
                         {
@@ -362,13 +342,15 @@ int main()
                 } //     if (size_is_correct) {
 
             } //  if (header.format_type == 1) {
-            
+
         } //  if (f_open(&pFile, "data.wav", FA_READ) == FR_OK){
         f_close(&pFile);
     }
     while (1)
     {
-        delay_ms(1000);
+        //        printf("OK");
+        delay_ms(100);
     } //end loop
 } //end main
+
 /******************* (C) COPYRIGHT 2020 *****END OF FILE****/
