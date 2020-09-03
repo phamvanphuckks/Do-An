@@ -36,3 +36,5 @@
 .\objects\button.o: ..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h
 .\objects\button.o: ..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 .\objects\button.o: ..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
+.\objects\button.o: ..\Library\User_Libraries\inc\uart.h
+.\objects\button.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

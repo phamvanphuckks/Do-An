@@ -17,7 +17,6 @@
 
 void TIM6_Trigger_DAC_Init(uint16_t arr, uint16_t psc)
 {
-    // 44.1 Khz arr=1633
     TIM6_Trigger_DAC_Config(arr, psc);
 }
 

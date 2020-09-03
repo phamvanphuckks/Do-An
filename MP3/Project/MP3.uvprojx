@@ -432,19 +432,9 @@
               <FilePath>..\Library\tm_stm32f4_fatfs\tm_stm32f4_fatfs.c</FilePath>
             </File>
             <File>
-              <FileName>ff.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\tm_stm32f4_fatfs\fatfs\ff.c</FilePath>
-            </File>
-            <File>
               <FileName>tm_stm32f4_gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\tm_stm32f4_fatfs\fatfs\tm_stm32f4_gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>unicode.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\tm_stm32f4_fatfs\fatfs\option\unicode.c</FilePath>
             </File>
             <File>
               <FileName>syscall.c</FileName>
@@ -452,14 +442,24 @@
               <FilePath>..\Library\tm_stm32f4_fatfs\fatfs\option\syscall.c</FilePath>
             </File>
             <File>
+              <FileName>fatfs_sd_sdio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\tm_stm32f4_fatfs\fatfs\drivers\fatfs_sd_sdio.c</FilePath>
+            </File>
+            <File>
+              <FileName>ff.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\tm_stm32f4_fatfs\fatfs\ff.c</FilePath>
+            </File>
+            <File>
               <FileName>diskio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\tm_stm32f4_fatfs\fatfs\diskio.c</FilePath>
             </File>
             <File>
-              <FileName>fatfs_sd_sdio.c</FileName>
+              <FileName>unicode.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Library\tm_stm32f4_fatfs\fatfs\drivers\fatfs_sd_sdio.c</FilePath>
+              <FilePath>..\Library\tm_stm32f4_fatfs\fatfs\option\unicode.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -510,6 +510,21 @@
               <FileName>stm32f4xx_adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_exti.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_exti.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_syscfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_syscfg.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -565,6 +580,11 @@
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\User_Libraries\src\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\User_Libraries\src\flash.c</FilePath>
             </File>
           </Files>
         </Group>

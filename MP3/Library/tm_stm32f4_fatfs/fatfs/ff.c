@@ -1481,7 +1481,7 @@ FRESULT dir_read (
 #endif
 
 	res = FR_NO_FILE;
-	while (dp->sect) { // thu xuat hex ra xem dia chi
+	while (dp->sect) { 
 		res = move_window(dp->fs, dp->sect);
 		if (res != FR_OK) break;
 		dir = dp->dir;					/* Ptr to the directory entry of current index */
@@ -1669,9 +1669,8 @@ void get_fileinfo (		/* No return code */
  
 	if (dp->sect) {		/* Get SFN */
 		dir = dp->dir;
-//        printf("dir: %s \n", dp->dir);
 		i = 0;
-		while (i < 11) {		/* Copy name body and extension */
+		while (i < 9) {		/* Copy name body and extension */
 			c = (TCHAR)dir[i++];
 			if (c == ' ') continue;				/* Skip padding spaces */
 			if (c == RDDEM) c = (TCHAR)DDEM;	/* Restore replaced DDEM character */

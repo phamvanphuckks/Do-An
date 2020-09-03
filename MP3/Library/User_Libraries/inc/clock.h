@@ -15,6 +15,8 @@
 #ifndef __CLOCK_H__
 #define __CLOCK_H__
 
+#define PCLK1   72000000UL
+
 #include "stm32f4xx_rcc.h"
 /*
 • f(VCO clock) = f(PLL clock input) × (PLLN / PLLM)

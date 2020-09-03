@@ -13,7 +13,6 @@
 *********************************************************************
 */
 
-#include "stm32f4xx_conf.h"
 #include <stdio.h>
 #include <string.h>
 #include "defines.h"
@@ -27,20 +26,33 @@
 #include "dac.h"
 #include "dma.h"
 
-#include "adc.h"
+#include "button.h"
 
 #define TRUE 1
 #define FALSE 0
 
+
 /******************************************************************************/
 FATFS FatFs; /** Fatfs object */
 FIL pFile;   /** File object */
+DIR pdir;
+FILINFO fno;
 FRESULT fr;  /** FatFs return code */
-char Rxbuffer[500];
-UINT br, bw; /** File read/write count */
-extern int h, t;
 
+UINT br, bw; /** File read/write count */
 /******************************************************************************/
+
+volatile uint8_t Flag_next_song = 0;
+
+typedef struct SONGS_LIST
+{
+     char *ptr_previous_song;
+     char *ptr_current_song;
+     char *ptr_next_song;
+}SONGS_LIST;
+
+SONGS_LIST list;
+
 
 struct HEADER
 {
@@ -105,81 +117,17 @@ FATFS fs;
 FRESULT res;
 char buff[256];
 
-int16_t test_trigger = 0;
 int16_t wavBuffer1[256], wavBuffer2[256];
 /*---------------------------*/
 
-FRESULT scan_files(
-    char *path /* Start node to be scanned (***also used as work area***) */
-)
+// parameter  sing_name ViYeuCuDamDau
+void File_Processed(char *song_name)
 {
-    FRESULT res;
-    DIR dir;
-    UINT i;
-    static FILINFO fno;
-
-    res = f_opendir(&dir, path); /* Open the directory */
-    printf("path %s\n", path);
-    if (res == FR_OK)
-    {
-
-        for (;;)
-        {
-            res = f_readdir(&dir, &fno); /* Read a directory item */
-            //if (res != FR_OK || fno.fname[0] == 0 || fno.fname[0]=='.') break;  /* Break on error or end of dir */
-            if (res != FR_OK || fno.fname[0] == 0)
-                break; /* Break on error or end of dir */
-
-            if (fno.fattrib & AM_DIR)
-            { /* It is a directory */
-                i = strlen(path);
-                sprintf(&path[i], "/%s", fno.fname);
-                // printf("%s/%s - 1\n", path, fno.fname);
-                printf("%s - 1 \n", fno.fname);
-                res = scan_files(path); /* Enter the directory */
-                if (res != FR_OK)
-                    break;
-                path[i] = 0;
-            }
-            else
-            { /* It is a file. */
-                printf("%s/%s - 2\n", path, fno.fname);
-            }
-        }
-        f_closedir(&dir);
-    }
-
-    //    return res;
-}
-
-int main()
-{
-    System_Initial();
-    SystemCoreClockUpdate();
-    SysTick_Init();
-
-    UART1_Config();
-    int read = 0;
-    DAC_Channel1_Initial();
-    DACDMA_Initial(wavBuffer1);
-    
-//    ADC_Initial();
-    /*-------------------------------------------------*/
-
-//    res = f_mount(&fs, "", 1); // register work area
-
-//    if (res == FR_OK)
-//    {
-//        strcpy(buff, "/");
-//        //        strcpy(buff, "//SYSTEM~1");
-//        res = scan_files(buff);
-//    }
-    /*-------------------------------------------------*/
-
-    if (f_mount(&FatFs, "", 1) == FR_OK)
+   int read = 0;
+   if (f_mount(&FatFs, "", 1) == FR_OK)
     {
         /** Open a file */
-        if (f_open(&pFile, "data.wav", FA_READ) == FR_OK)
+        if (f_open(&pFile, song_name, FA_READ) == FR_OK)
         {
             read = f_read(&pFile, header.riff, sizeof(header.riff), &br);
             printf("(1-4): %s \n", header.riff);
@@ -285,8 +233,6 @@ int main()
             if (header.format_type == 1)
             { // PCM
                 
-                long i = 0;
-                //char data_buffer[size_of_each_sample];
                 char data_buffer[512];
                 int size_is_correct = TRUE;
 
@@ -299,11 +245,10 @@ int main()
             
                 if (size_is_correct)
                 {
-                    TIM6_Trigger_DAC_Init(749, 0);
-                    // the valid amplitude range for values based on the bits per sample
-                    for (i = 1; i <= num_samples; i +=1024)
+                    TIM6_Trigger_DAC_Init((PCLK1/header.sample_rate - 1), 0);     
+                    printf("start\n");    
+                    while(pFile.fsize != pFile.fptr)
                     {
-
                         read = f_read(&pFile, data_buffer, sizeof(data_buffer), &br);
 
                         if (read == 0)
@@ -354,8 +299,8 @@ int main()
                         DMA_Cmd(DMA1_Stream5, DISABLE);
                         DACDMA_Initial(wavBuffer1);                         
 
-                    } //     for (i =1; i <= num_samples; i++) {
-
+                    } //     while(!read) {
+                    printf("stop\n");
                 } //     if (size_is_correct) {
 
             } //  if (header.format_type == 1) {
@@ -363,9 +308,85 @@ int main()
         } //  if (f_open(&pFile, "data.wav", FA_READ) == FR_OK){
         f_close(&pFile);
     }
+    DMA_Cmd(DMA1_Stream5, DISABLE);
+}
+
+
+
+
+FRESULT scan_files(
+    char *path /* Start node to be scanned (***also used as work area***) */
+)
+{
+    FRESULT res;
+    UINT i;
+
+    static TCHAR lfname[_MAX_LFN]; 
+    char LFNBuf[_MAX_LFN];
+    
+    res = f_opendir(&pdir, path); /* Open the directory */
+    if (res == FR_OK)
+    {
+        printf("Directory listing...\r\n"); 
+        for (;; ) 
+        { 
+            fno.lfname = lfname; 
+            fno.lfsize = _MAX_LFN - 1; 
+            /* Read a directory item */ 
+            res = f_readdir(&pdir, &fno); 
+            if (res || !fno.fname[0]) { 
+                   break;                         /* Error or end of dir */ 
+            } if (fno.fattrib & AM_DIR) { 
+                      sprintf(LFNBuf, "   [dir]  %s\r\n", fno.lfname[0] ? fno.lfname : fno.fname); 
+            } 
+            else { /* It is a file. */
+                      sprintf(LFNBuf, "   %8lu  %s\r\n", fno.fsize, fno.lfname[0] ? fno.lfname : fno.fname); 
+            } 
+            printf("%s\n",LFNBuf); 
+            if(!strcmp(fno.lfname, "ViYeuCuDamDau.wav"))
+            {
+                printf("phat thoi \n");
+                printf("phat nahc nay");
+                File_Processed("//music/ViYeuCuDamDau.wav");
+            }
+        }
+    }
+    f_closedir(&pdir);
+    
+    return res;
+}
+
+int main()
+{
+    System_Initial();
+    SystemCoreClockUpdate();
+    SysTick_Init();
+    button_Initial();
+    UART1_Config();
+    DAC_Channel1_Initial();
+    DACDMA_Initial(wavBuffer1);
+    
+    /*-------------------------------------------------*/
+
+    /*-------------------------------------------------*/   
+//    File_Processed("//music/SimpleLove.wav");
+//    File_Processed("//music/ViYeuCuDamDau.WAV");
+//    File_Processed("//music/DapMoCuocTinh.wav");
     while (1)
     {
-        //        printf("OK");
+        if(Flag_next_song == 1)
+        {
+            
+            res = f_mount(&fs, "", 1); // register work area
+
+            if (res == FR_OK)
+            {
+                strcpy(buff, "//music");
+                //strcpy(buff, "/");
+                res = scan_files(buff);
+            }
+            Flag_next_song = 0;
+        }
         delay_ms(100);
     } //end loop
 } //end main
