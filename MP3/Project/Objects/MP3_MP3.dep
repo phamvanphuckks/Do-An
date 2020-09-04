@@ -1,5 +1,5 @@
 Dependencies for Project 'MP3', Target 'MP3': (DO NOT MODIFY !)
-F (..\User\main.c)(0x5F5088F4)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Library\CMSIS\Device\STM32F4xx\Include -I..\Library\CMSIS\Include -I..\Library\CMSIS\startup -I..\Library\User_Libraries\inc -I..\Library\tm_stm32f4_fatfs\fatfs -I..\Library\tm_stm32f4_fatfs\fatfs\drivers -I..\Library\tm_stm32f4_fatfs\fatfs\option -I..\Library\STM32F4xx_StdPeriph_Driver\inc-I "C:\Users\Pham Van Phuc\Desktop\Do_An\MP3\Project\RTE"-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (..\User\main.c)(0x5F521125)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Library\CMSIS\Device\STM32F4xx\Include -I..\Library\CMSIS\Include -I..\Library\CMSIS\startup -I..\Library\User_Libraries\inc -I..\Library\tm_stm32f4_fatfs\fatfs -I..\Library\tm_stm32f4_fatfs\fatfs\drivers -I..\Library\tm_stm32f4_fatfs\fatfs\option -I..\Library\STM32F4xx_StdPeriph_Driver\inc-I "C:\Users\Pham Van Phuc\Desktop\Do_An\MP3\Project\RTE"-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB3986)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x55DB3988)
 I (..\Library\tm_stm32f4_fatfs\fatfs\defines.h)(0x5F489A4E)
@@ -43,7 +43,7 @@ I (..\Library\tm_stm32f4_fatfs\fatfs\integer.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\attributes.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\tm_stm32f4_fatfs.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\tm_stm32f4_gpio.h)(0x5F489A4E)
-I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F489A4E)
+I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F51C13B)
 I (..\Library\tm_stm32f4_fatfs\fatfs\ffconf.h)(0x5F505E76)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55DB3988)
 I (..\Library\User_Libraries\inc\delay.h)(0x5D82353D)
@@ -91,7 +91,7 @@ I (..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x581CC67B)
 I (..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x581CC67B)
 I (..\Library\tm_stm32f4_fatfs\fatfs\defines.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\tm_stm32f4_gpio.h)(0x5F489A4E)
-I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F489A4E)
+I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F51C13B)
 I (..\Library\tm_stm32f4_fatfs\fatfs\integer.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\ffconf.h)(0x5F505E76)
 I (..\Library\tm_stm32f4_fatfs\fatfs\diskio.h)(0x5F489A4E)
@@ -137,7 +137,7 @@ I (..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x581CC67B)
 I (..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x581CC67B)
 I (..\Library\tm_stm32f4_fatfs\fatfs\defines.h)(0x5F489A4E)
 F (..\Library\tm_stm32f4_fatfs\fatfs\option\syscall.c)(0x5F505BFD)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Library\CMSIS\Device\STM32F4xx\Include -I..\Library\CMSIS\Include -I..\Library\CMSIS\startup -I..\Library\User_Libraries\inc -I..\Library\tm_stm32f4_fatfs\fatfs -I..\Library\tm_stm32f4_fatfs\fatfs\drivers -I..\Library\tm_stm32f4_fatfs\fatfs\option -I..\Library\STM32F4xx_StdPeriph_Driver\inc-I "C:\Users\Pham Van Phuc\Desktop\Do_An\MP3\Project\RTE"-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\objects\syscall.o --omf_browse .\objects\syscall.crf --depend .\objects\syscall.d)
-I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F489A4E)
+I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F51C13B)
 I (..\Library\tm_stm32f4_fatfs\fatfs\integer.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\ffconf.h)(0x5F505E76)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55DB3988)
@@ -183,13 +183,13 @@ I (..\Library\tm_stm32f4_fatfs\fatfs\defines.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\attributes.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\tm_stm32f4_fatfs.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\tm_stm32f4_gpio.h)(0x5F489A4E)
-I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F489A4E)
+I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F51C13B)
 I (..\Library\tm_stm32f4_fatfs\fatfs\ffconf.h)(0x5F505E76)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x55DB3988)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55DB3988)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB3986)
-F (..\Library\tm_stm32f4_fatfs\fatfs\ff.c)(0x5F50676A)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Library\CMSIS\Device\STM32F4xx\Include -I..\Library\CMSIS\Include -I..\Library\CMSIS\startup -I..\Library\User_Libraries\inc -I..\Library\tm_stm32f4_fatfs\fatfs -I..\Library\tm_stm32f4_fatfs\fatfs\drivers -I..\Library\tm_stm32f4_fatfs\fatfs\option -I..\Library\STM32F4xx_StdPeriph_Driver\inc-I "C:\Users\Pham Van Phuc\Desktop\Do_An\MP3\Project\RTE"-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\objects\ff.o --omf_browse .\objects\ff.crf --depend .\objects\ff.d)
-I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F489A4E)
+F (..\Library\tm_stm32f4_fatfs\fatfs\ff.c)(0x5F51C0E0)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Library\CMSIS\Device\STM32F4xx\Include -I..\Library\CMSIS\Include -I..\Library\CMSIS\startup -I..\Library\User_Libraries\inc -I..\Library\tm_stm32f4_fatfs\fatfs -I..\Library\tm_stm32f4_fatfs\fatfs\drivers -I..\Library\tm_stm32f4_fatfs\fatfs\option -I..\Library\STM32F4xx_StdPeriph_Driver\inc-I "C:\Users\Pham Van Phuc\Desktop\Do_An\MP3\Project\RTE"-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\objects\ff.o --omf_browse .\objects\ff.crf --depend .\objects\ff.d)
+I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F51C13B)
 I (..\Library\tm_stm32f4_fatfs\fatfs\integer.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\ffconf.h)(0x5F505E76)
 I (..\Library\tm_stm32f4_fatfs\fatfs\diskio.h)(0x5F489A4E)
@@ -201,7 +201,7 @@ I (..\Library\tm_stm32f4_fatfs\fatfs\diskio.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\integer.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\defines.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\attributes.h)(0x5F489A4E)
-I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F489A4E)
+I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F51C13B)
 I (..\Library\tm_stm32f4_fatfs\fatfs\ffconf.h)(0x5F505E76)
 I (..\Library\tm_stm32f4_fatfs\fatfs\drivers\fatfs_sd_sdio.h)(0x5F489A4E)
 I (..\Library\CMSIS\Device\STM32F4xx\Include\stm32f4xx.h)(0x582097AB)
@@ -244,7 +244,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x55DB3988)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55DB3988)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB3986)
 F (..\Library\tm_stm32f4_fatfs\fatfs\option\unicode.c)(0x5F505C12)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Library\CMSIS\Device\STM32F4xx\Include -I..\Library\CMSIS\Include -I..\Library\CMSIS\startup -I..\Library\User_Libraries\inc -I..\Library\tm_stm32f4_fatfs\fatfs -I..\Library\tm_stm32f4_fatfs\fatfs\drivers -I..\Library\tm_stm32f4_fatfs\fatfs\option -I..\Library\STM32F4xx_StdPeriph_Driver\inc-I "C:\Users\Pham Van Phuc\Desktop\Do_An\MP3\Project\RTE"-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\objects\unicode.o --omf_browse .\objects\unicode.crf --depend .\objects\unicode.d)
-I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F489A4E)
+I (..\Library\tm_stm32f4_fatfs\fatfs\ff.h)(0x5F51C13B)
 I (..\Library\tm_stm32f4_fatfs\fatfs\integer.h)(0x5F489A4E)
 I (..\Library\tm_stm32f4_fatfs\fatfs\ffconf.h)(0x5F505E76)
 I (..\Library\tm_stm32f4_fatfs\fatfs\option\ccsbcs.c)(0x5F489A4E)
@@ -813,7 +813,7 @@ I (..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rng.h)(0x581CC67B)
 I (..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x5821F050)
 I (..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x581CC67B)
 I (..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x581CC67B)
-F (..\Library\User_Libraries\src\button.c)(0x5F5088D0)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Library\CMSIS\Device\STM32F4xx\Include -I..\Library\CMSIS\Include -I..\Library\CMSIS\startup -I..\Library\User_Libraries\inc -I..\Library\tm_stm32f4_fatfs\fatfs -I..\Library\tm_stm32f4_fatfs\fatfs\drivers -I..\Library\tm_stm32f4_fatfs\fatfs\option -I..\Library\STM32F4xx_StdPeriph_Driver\inc-I "C:\Users\Pham Van Phuc\Desktop\Do_An\MP3\Project\RTE"-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\objects\button.o --omf_browse .\objects\button.crf --depend .\objects\button.d)
+F (..\Library\User_Libraries\src\button.c)(0x5F51FD37)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Library\CMSIS\Device\STM32F4xx\Include -I..\Library\CMSIS\Include -I..\Library\CMSIS\startup -I..\Library\User_Libraries\inc -I..\Library\tm_stm32f4_fatfs\fatfs -I..\Library\tm_stm32f4_fatfs\fatfs\drivers -I..\Library\tm_stm32f4_fatfs\fatfs\option -I..\Library\STM32F4xx_StdPeriph_Driver\inc-I "C:\Users\Pham Van Phuc\Desktop\Do_An\MP3\Project\RTE"-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F407xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\objects\button.o --omf_browse .\objects\button.crf --depend .\objects\button.d)
 I (..\Library\User_Libraries\inc\button.h)(0x5F4D9558)
 I (..\Library\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_gpio.h)(0x5D81E51E)
 I (..\Library\CMSIS\Device\STM32F4xx\Include\stm32f4xx.h)(0x582097AB)

@@ -16,6 +16,7 @@
 #include "uart.h"
 
 extern volatile uint8_t Flag_next_song;
+extern volatile uint8_t Flag_back_song;
 
 void button_Initial(void)
 {
@@ -130,7 +131,7 @@ void EXTI4_IRQHandler(void)
   {
     /* Toggle LED2 */
     TONGGLE_LED2
-
+    Flag_back_song = 1;
     /* Clear the EXTI line 4 pending bit */
     EXTI_ClearITPendingBit(EXTI_Line4);
   }

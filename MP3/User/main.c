@@ -43,15 +43,19 @@ UINT br, bw; /** File read/write count */
 /******************************************************************************/
 
 volatile uint8_t Flag_next_song = 0;
+volatile uint8_t Flag_back_song = 0;
+volatile uint8_t number_of_song = 0;
+uint8_t pos_song = 0;
 
 typedef struct SONGS_LIST
 {
-     char *ptr_previous_song;
-     char *ptr_current_song;
-     char *ptr_next_song;
-}SONGS_LIST;
+    char ptr_previous_song[255];
+    char ptr_current_song[255];
+    char ptr_next_song[255];
+}LIST;
 
-SONGS_LIST list;
+LIST list; //= (LIST*)malloc(sizeof(LIST));
+
 
 
 struct HEADER
@@ -249,6 +253,8 @@ void File_Processed(char *song_name)
                     printf("start\n");    
                     while(pFile.fsize != pFile.fptr)
                     {
+                        if((Flag_next_song == 1)|| (Flag_back_song ==1)) break;
+                        
                         read = f_read(&pFile, data_buffer, sizeof(data_buffer), &br);
 
                         if (read == 0)
@@ -311,50 +317,218 @@ void File_Processed(char *song_name)
     DMA_Cmd(DMA1_Stream5, DISABLE);
 }
 
-
-
-
-FRESULT scan_files(
-    char *path /* Start node to be scanned (***also used as work area***) */
-)
+void Initial_Structure_List()
 {
-    FRESULT res;
-    UINT i;
+//    list = (LIST*)malloc(sizeof(LIST));   
+    res = f_mount(&fs, "", 1); // register work area
 
-    static TCHAR lfname[_MAX_LFN]; 
-    char LFNBuf[_MAX_LFN];
-    
-    res = f_opendir(&pdir, path); /* Open the directory */
     if (res == FR_OK)
     {
-        printf("Directory listing...\r\n"); 
-        for (;; ) 
-        { 
-            fno.lfname = lfname; 
-            fno.lfsize = _MAX_LFN - 1; 
-            /* Read a directory item */ 
-            res = f_readdir(&pdir, &fno); 
-            if (res || !fno.fname[0]) { 
-                   break;                         /* Error or end of dir */ 
-            } if (fno.fattrib & AM_DIR) { 
-                      sprintf(LFNBuf, "   [dir]  %s\r\n", fno.lfname[0] ? fno.lfname : fno.fname); 
-            } 
-            else { /* It is a file. */
-                      sprintf(LFNBuf, "   %8lu  %s\r\n", fno.fsize, fno.lfname[0] ? fno.lfname : fno.fname); 
-            } 
-            printf("%s\n",LFNBuf); 
-            if(!strcmp(fno.lfname, "ViYeuCuDamDau.wav"))
-            {
-                printf("phat thoi \n");
-                printf("phat nahc nay");
-                File_Processed("//music/ViYeuCuDamDau.wav");
+        FRESULT res;
+
+        static TCHAR lfname[_MAX_LFN]; 
+        char LFNBuf[_MAX_LFN];
+        
+        res = f_opendir(&pdir, "//music"); /* Open the directory */
+        if (res == FR_OK)
+        {
+            printf("Directory listing...\r\n"); 
+            for ( ; ; ) 
+            { 
+                fno.lfname = lfname; 
+                fno.lfsize = _MAX_LFN - 1; 
+               
+                res = f_readdir(&pdir, &fno); /* Read a directory item */ 
+                if (res || !fno.fname[0])   break;                         
+                if ( !(fno.fattrib & AM_DIR)) { /* It is a file. */
+                    sprintf(LFNBuf, "   %8lu  %s\r\n", fno.fsize, fno.lfname[0] ? fno.lfname : fno.fname);
+                    number_of_song++;  
+                    printf("%s\n", fno.lfname);
+                }               
             }
         }
-    }
-    f_closedir(&pdir);
-    
-    return res;
+        f_closedir(&pdir);
+        res = f_opendir(&pdir, "//music"); /* Open the directory */
+        if (res == FR_OK)
+        {        
+            for ( int index = 0; index < number_of_song ; index++) 
+            { 
+                fno.lfname = lfname; 
+                fno.lfsize = _MAX_LFN - 1; 
+
+                do{
+                    res = f_readdir(&pdir, &fno);
+                        
+//                    printf("%d - %s", fno.lfname[0]=='.', fno.lfname);
+                }while(fno.lfname[0]=='.' || fno.lfname[0]=='\0');  // neu ma doc duoc "." or ".." f_readdir() de bo qua          
+                
+                if (res || !fno.fname[0])   break;                      
+                if (!(fno.fattrib & AM_DIR)) {  /* It is a file. */
+                    sprintf(LFNBuf, "//music/%s", fno.lfname[0] ? fno.lfname : fno.fname);  
+                } 
+                //printf("%s\n", LFNBuf); 
+                if(index == 0) {
+                    strcpy(list.ptr_current_song, LFNBuf);
+                    printf("list.ptr_current_song : %s\n", list.ptr_current_song);                      
+                }
+                if(index == 1) {
+                    strcpy(list.ptr_next_song, LFNBuf);
+                    printf("list.ptr_next_song : %s\n", list.ptr_next_song);     
+                }
+                if(index == number_of_song - 1) 
+                {
+                    strcpy(list.ptr_previous_song, LFNBuf);
+                    printf("list.ptr_previous_song : %s\n", list.ptr_previous_song);
+                }
+            }
+        }
+        f_closedir(&pdir);
+    }    
 }
+
+uint8_t next_update_strucre_list()
+{
+    res = f_mount(&fs, "", 1); // register work area
+
+    if (res == FR_OK)
+    {
+        FRESULT res;
+
+        static TCHAR lfname[_MAX_LFN]; 
+        char LFNBuf[_MAX_LFN];
+        
+        res = f_opendir(&pdir, "//music"); /* Open the directory */
+        if (res == FR_OK)
+        {
+            printf("Directory listing...\r\n"); 
+            for (; ; ) 
+            { 
+                fno.lfname = lfname; 
+                fno.lfsize = _MAX_LFN - 1; 
+                res = f_readdir(&pdir, &fno);  /* Read a directory item */ 
+
+                if (!(fno.fattrib & AM_DIR)) { /* It is a file. */
+                    sprintf(LFNBuf, "//music/%s", fno.lfname[0] ? fno.lfname : fno.fname); 
+                    //printf("LFNBuf : %s \n", LFNBuf);
+                    if(!strcmp(LFNBuf, list.ptr_current_song))
+                    {
+                        printf("vao na\n");
+                        printf("dau vao hien tai %s\n", LFNBuf);
+                        strcpy(list.ptr_previous_song, list.ptr_current_song);
+                        strcpy(list.ptr_current_song, list.ptr_next_song);
+                        
+                        res = f_readdir(&pdir, &fno); 
+                        res = f_readdir(&pdir, &fno); 
+                        sprintf(LFNBuf, "//music/%s", fno.lfname[0] ? fno.lfname : fno.fname); 
+                        printf("doc them 2 lan nua %s\n", LFNBuf); 
+                        
+                        if (!fno.fname[0] && !lfname[0]){
+                            dir_sdi(&pdir, 0);
+                            printf("dao chieu ne \n");
+                            do{
+                                res = f_readdir(&pdir, &fno); 
+                                sprintf(LFNBuf, "//music/%s", fno.lfname[0] ? fno.lfname : fno.fname); 
+                                strcpy(list.ptr_next_song, LFNBuf);
+                                if(!strcmp(LFNBuf, list.ptr_current_song))
+                                {
+                                    res = f_readdir(&pdir, &fno); 
+                                    sprintf(LFNBuf, "//music/%s", fno.lfname[0] ? fno.lfname : fno.fname); 
+                                    strcpy(list.ptr_next_song, LFNBuf);
+                                }
+                                printf("xx : %s\n", LFNBuf);
+                              }while((fno.fname[0] == '\0' )|| (fno.fname[0] == '.'));
+                             
+                        }
+                        if (!(fno.fattrib & AM_DIR)) {
+                            sprintf(LFNBuf, "//music/%s", fno.lfname[0] ? fno.lfname : fno.fname); 
+                            strcpy(list.ptr_next_song, LFNBuf);
+                        }
+                        
+                        printf("list.ptr_next_song %s \n", list.ptr_next_song);
+                        printf("list.ptr_current_song %s \n", list.ptr_current_song);
+                        printf("list.ptr_previous_song %s \n", list.ptr_previous_song);
+                        return 0;
+                    }
+                }// end   if (!(fno.fattrib & AM_DIR)) {     
+                
+            }// end for(; ; ) {
+        }// end if
+        f_closedir(&pdir);
+    }   
+    return 0;
+}
+
+uint8_t back_update_strucre_list()
+{
+    res = f_mount(&fs, "", 1); // register work area
+
+    if (res == FR_OK)
+    {
+        FRESULT res;
+
+        static TCHAR lfname[_MAX_LFN]; 
+        char LFNBuf[_MAX_LFN];
+        
+        res = f_opendir(&pdir, "//music"); /* Open the directory */
+        if (res == FR_OK)
+        {
+            printf("Directory listing...\r\n"); 
+            for (; ; ) 
+            { 
+                fno.lfname = lfname; 
+                fno.lfsize = _MAX_LFN - 1; 
+                res = f_readdir(&pdir, &fno);  /* Read a directory item */ 
+                
+                if (!(fno.fattrib & AM_DIR)) { /* It is a file. */
+                    sprintf(LFNBuf, "//music/%s", fno.lfname[0] ? fno.lfname : fno.fname); 
+
+                    if(!strcmp(LFNBuf, list.ptr_current_song))
+                    {
+                        for(int k = 0; k < number_of_song-1; k++)
+                        {
+                            do{
+                                res = f_readdir(&pdir, &fno); 
+                                sprintf(LFNBuf, "//music/%s", fno.lfname[0] ? fno.lfname : fno.fname); 
+                                if (!fno.fname[0] && !lfname[0]) dir_sdi(&pdir, 0);
+                                                           
+ //                               printf("xx : %s\n", LFNBuf);
+                              }while((fno.fname[0] == '\0' )|| (fno.fname[0] == '.'));                            
+                        }
+                        printf("vao na\n");
+                        printf("dau vao hien tai %s\n", LFNBuf);
+                        strcpy(list.ptr_next_song, list.ptr_current_song);
+                        strcpy(list.ptr_current_song, list.ptr_previous_song);
+                        
+                        for(int k = 0; k < number_of_song-1; k++)
+                        {
+                            do{
+                                res = f_readdir(&pdir, &fno); 
+                                sprintf(LFNBuf, "//music/%s", fno.lfname[0] ? fno.lfname : fno.fname); 
+                                if (!fno.fname[0] && !lfname[0]) dir_sdi(&pdir, 0);
+                                                           
+//                                printf("xx : %s\n", LFNBuf);
+                              }while((fno.fname[0] == '\0' )|| (fno.fname[0] == '.'));                            
+                        }
+                        strcpy(list.ptr_previous_song, LFNBuf);
+ //                       sprintf(LFNBuf, "//music/%s", fno.lfname[0] ? fno.lfname : fno.fname); 
+                        printf("doc them 2 lan nua %s\n", LFNBuf); 
+                        
+
+                        printf("list.ptr_previous_song %s \n", list.ptr_previous_song);
+                        printf("list.ptr_current_song %s \n", list.ptr_current_song);                        
+                        printf("list.ptr_next_song %s \n", list.ptr_next_song);
+
+                        return 0;
+                    }
+                }// end   if (!(fno.fattrib & AM_DIR)) {     
+                
+            }// end for(; ; ) {
+        }// end if
+        f_closedir(&pdir);
+    }
+    return 0;
+}
+
 
 int main()
 {
@@ -366,28 +540,24 @@ int main()
     DAC_Channel1_Initial();
     DACDMA_Initial(wavBuffer1);
     
-    /*-------------------------------------------------*/
+    Initial_Structure_List();
+    printf("structure %s - %s - %s\n",list.ptr_previous_song, list.ptr_current_song, list.ptr_next_song);
 
-    /*-------------------------------------------------*/   
-//    File_Processed("//music/SimpleLove.wav");
-//    File_Processed("//music/ViYeuCuDamDau.WAV");
-//    File_Processed("//music/DapMoCuocTinh.wav");
     while (1)
     {
         if(Flag_next_song == 1)
         {
-            
-            res = f_mount(&fs, "", 1); // register work area
-
-            if (res == FR_OK)
-            {
-                strcpy(buff, "//music");
-                //strcpy(buff, "/");
-                res = scan_files(buff);
-            }
-            Flag_next_song = 0;
+           Flag_next_song = 0;
+           next_update_strucre_list(); 
+           File_Processed(list.ptr_current_song);
         }
-        delay_ms(100);
+        
+        if(Flag_back_song == 1)
+        {
+            Flag_back_song = 0;
+            back_update_strucre_list(); 
+            File_Processed(list.ptr_current_song);
+        }
     } //end loop
 } //end main
 

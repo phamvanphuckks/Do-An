@@ -254,8 +254,8 @@ TCHAR* f_gets (TCHAR* buff, int len, FIL* fp);						/* Get a string from the fil
 #define EOF (-1)
 #endif
 
-
-
+// tu them vao
+FRESULT dir_sdi (DIR* dp, UINT idx);	
 
 /*--------------------------------------------------------------*/
 /* Additional user defined functions                            */
