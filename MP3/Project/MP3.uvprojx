@@ -586,6 +586,11 @@
               <FileType>1</FileType>
               <FilePath>..\Library\User_Libraries\src\flash.c</FilePath>
             </File>
+            <File>
+              <FileName>lcd16x2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\User_Libraries\src\lcd16x2.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

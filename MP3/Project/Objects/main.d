@@ -53,3 +53,4 @@
 .\objects\main.o: ..\Library\User_Libraries\inc\dac.h
 .\objects\main.o: ..\Library\User_Libraries\inc\dma.h
 .\objects\main.o: ..\Library\User_Libraries\inc\button.h
+.\objects\main.o: ..\Library\User_Libraries\inc\lcd16x2.h

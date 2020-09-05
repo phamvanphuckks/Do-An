@@ -30,6 +30,7 @@
 ".\objects\sd_card.o"
 ".\objects\adc.o"
 ".\objects\flash.o"
+".\objects\lcd16x2.o"
 ".\objects\startup_stm32f407xx.o"
 ".\objects\system_stm32f4xx.o"
 --strict --scatter ".\Objects\MP3.sct"

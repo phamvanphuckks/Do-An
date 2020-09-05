@@ -27,6 +27,7 @@
 #include "dma.h"
 
 #include "button.h"
+#include "lcd16x2.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -530,6 +531,7 @@ uint8_t back_update_strucre_list()
 }
 
 
+
 int main()
 {
     System_Initial();
@@ -542,20 +544,27 @@ int main()
     
     Initial_Structure_List();
     printf("structure %s - %s - %s\n",list.ptr_previous_song, list.ptr_current_song, list.ptr_next_song);
-
+    LCD_Init();
+    
     while (1)
     {
         if(Flag_next_song == 1)
         {
-           Flag_next_song = 0;
-           next_update_strucre_list(); 
-           File_Processed(list.ptr_current_song);
+            Flag_next_song = 0;
+            next_update_strucre_list(); 
+//            LCD_Clear();
+            LCD_Gotoxy(0,0);
+            LCD_Puts(list.ptr_current_song);  
+            File_Processed(list.ptr_current_song);  
         }
         
         if(Flag_back_song == 1)
         {
             Flag_back_song = 0;
             back_update_strucre_list(); 
+//            LCD_Clear();
+            LCD_Gotoxy(0,0);
+            LCD_Puts(list.ptr_current_song); 
             File_Processed(list.ptr_current_song);
         }
     } //end loop
