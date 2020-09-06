@@ -52,7 +52,16 @@ void LCD_SendCommand(unsigned char command);
 void LCD_Gotoxy(unsigned char x, unsigned char y);
 void LCD_PutChar(unsigned char Data);
 void LCD_Puts(char *s);
+void LCD_scrollDisplayRight(void);
+void LCD_scrollDisplayLeft(void);
+void LDC_cursor(void);
+void LCD_noCursor(void);
+void LCD_autoscroll(void);
+void LCD_noAutoscroll(void); 
+void LCD_leftToRight(void);
+void LCD_rightToLeft(void);
 
+    
 static void GPIO_LCD_Init(void);
 #endif
 

@@ -204,6 +204,56 @@ void LCD_Clear(void)
     delay_ms(1); 
 }
 
+void LCD_scrollDisplayRight(void)
+{
+  for (int positionCounter = 0; positionCounter < 7; positionCounter++) {
+    LCD_SendCommand(0x1C);  
+    delay_ms(300);
+  }    
+}
+void LCD_scrollDisplayLeft(void)
+{
+  for (int positionCounter = 0; positionCounter < 16; positionCounter++) {
+    LCD_SendCommand(0x18);  
+    delay_ms(100);
+  }    
+}
+
+void LDC_cursor(void)
+{   
+    LCD_SendCommand(0x0E);  
+    delay_ms(1); 
+}
+void LCD_noCursor(void)
+{
+    LCD_SendCommand(0x0C);  
+    delay_ms(1);     
+}
+
+void LCD_autoscroll(void)
+{
+    LCD_SendCommand(0x01|0x04);  
+    delay_ms(1);     
+}
+
+void LCD_noAutoscroll(void)
+{
+    LCD_SendCommand((~0x01)|0x04); 
+    delay_ms(1);     
+}
+
+void LCD_leftToRight(void)
+{
+    LCD_SendCommand(0x02|0x04); 
+    delay_ms(1);     
+}
+
+void LCD_rightToLeft(void)
+{
+    LCD_SendCommand(0x00|0x04); 
+    delay_ms(1); 
+}
+
 void GPIO_LCD_Init(void)
 {
     GPIO_InitTypeDef   LCD_Initstructure;

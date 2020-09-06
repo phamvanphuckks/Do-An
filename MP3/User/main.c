@@ -545,6 +545,16 @@ int main()
     Initial_Structure_List();
     printf("structure %s - %s - %s\n",list.ptr_previous_song, list.ptr_current_song, list.ptr_next_song);
     LCD_Init();
+
+/*timer update LCD_scrollDisplayRight() => chay chu*/
+//    while(1)
+//    {
+//        LCD_Gotoxy(0,0);
+//        LCD_Puts("//music/ViYeuCuDamDau.wav"); 
+//        delay_ms(500);
+//        LCD_scrollDisplayRight();
+// 
+//    }
     
     while (1)
     {
@@ -552,7 +562,7 @@ int main()
         {
             Flag_next_song = 0;
             next_update_strucre_list(); 
-//            LCD_Clear();
+            LCD_Clear();
             LCD_Gotoxy(0,0);
             LCD_Puts(list.ptr_current_song);  
             File_Processed(list.ptr_current_song);  
@@ -562,7 +572,7 @@ int main()
         {
             Flag_back_song = 0;
             back_update_strucre_list(); 
-//            LCD_Clear();
+            LCD_Clear();
             LCD_Gotoxy(0,0);
             LCD_Puts(list.ptr_current_song); 
             File_Processed(list.ptr_current_song);
