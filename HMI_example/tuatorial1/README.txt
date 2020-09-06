@@ -1,0 +1,1 @@
+Hướng dẫn gửu dữ liệu từ MCU hay bất cứ cái gì lên màn hình nextion, không sử dụng thư viện của bọn nextion
